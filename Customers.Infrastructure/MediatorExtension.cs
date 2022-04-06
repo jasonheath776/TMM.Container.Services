@@ -2,7 +2,7 @@
 
 static class MediatorExtension
 {
-    public static async Task DispatchDomainEventsAsync(this IMediator mediator, CustomerDbContext ctx)
+    public static async Task DispatchDomainEventsAsync(this IMediator mediator, CustomerContext ctx)
     {
         var domainEntities = ctx.ChangeTracker
             .Entries<Entity>()

@@ -6,7 +6,7 @@ namespace Customers.Infrastructure.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<Address> addressConfiguration)
         {
-            addressConfiguration.ToTable("Address", CustomerDbContext.DEFAULT_SCHEMA);
+            addressConfiguration.ToTable("Address", CustomerContext.DEFAULT_SCHEMA);
 
             addressConfiguration.HasKey(x => x.AddressId);
             addressConfiguration.HasIndex(s => s.CustomerId);

@@ -6,7 +6,7 @@ namespace Customers.Infrastructure.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<Customer> customerConfiguration)
         {
-            customerConfiguration.ToTable("Customers", CustomerDbContext.DEFAULT_SCHEMA);
+            customerConfiguration.ToTable("Customers", CustomerContext.DEFAULT_SCHEMA);
 
             customerConfiguration.HasKey(x => x.CustomerId);
             customerConfiguration.Ignore(x => x.DomainEvents);

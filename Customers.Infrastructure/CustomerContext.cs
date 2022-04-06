@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Design;
 
 namespace Customers.Infrastructure
 {
-    public class CustomerDbContext : DbContext, IUnitOfWork
+    public class CustomerContext : DbContext, IUnitOfWork
     {
 
         private readonly IMediator _mediator;
@@ -19,9 +19,9 @@ namespace Customers.Infrastructure
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Address> Addresses { get; set; }
 
-        public CustomerDbContext(DbContextOptions<CustomerDbContext> options) : base(options) { }
+        public CustomerContext(DbContextOptions<CustomerContext> options) : base(options) { }
 
-        public CustomerDbContext(DbContextOptions<CustomerDbContext> options, IMediator mediator) : this(options)
+        public CustomerContext(DbContextOptions<CustomerContext> options, IMediator mediator) : this(options)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
 
@@ -89,19 +89,19 @@ namespace Customers.Infrastructure
         }
     }
 
-    public class CustomerDbContextDesignFactory : IDesignTimeDbContextFactory<CustomerDbContext>
+    public class CustomerDbContextDesignFactory : IDesignTimeDbContextFactory<CustomerContext>
     {
-        public CustomerDbContext CreateDbContext(string[] args)
+        public CustomerContext CreateDbContext(string[] args)
         {
             // TODO: this should come from settings
             var folder = Environment.SpecialFolder.LocalApplicationData;
             var path = Environment.GetFolderPath(folder);
             var dbPath = Path.Join(path, "customer.db");
 
-            var optionsBuilder = new DbContextOptionsBuilder<CustomerDbContext>()
+            var optionsBuilder = new DbContextOptionsBuilder<CustomerContext>()
                 .UseSqlite(dbPath);
 
-            return new CustomerDbContext(optionsBuilder.Options, new NoMediator());
+            return new CustomerContext(optionsBuilder.Options, new NoMediator());
         }
 
         class NoMediator : IMediator

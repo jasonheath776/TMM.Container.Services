@@ -5,7 +5,7 @@ namespace Customers.Infrastructure.Repositories
     public class CustomerRepository
         : ICustomerRepository
     {
-        private readonly CustomerDbContext _context;
+        private readonly CustomerContext _context;
         public IUnitOfWork UnitOfWork
         {
             get
@@ -14,7 +14,7 @@ namespace Customers.Infrastructure.Repositories
             }
         }
 
-        public CustomerRepository(CustomerDbContext context)
+        public CustomerRepository(CustomerContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
