@@ -1,6 +1,4 @@
-﻿using Customers.Domain.SeedWork;
-
-#nullable disable
+﻿#nullable disable
 
 namespace Customers.Domain.AggregatesModel.CustomerAggregate
 {

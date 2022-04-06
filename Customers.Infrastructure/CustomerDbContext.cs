@@ -19,7 +19,7 @@ namespace Customers.Infrastructure
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Address> Addresses { get; set; }
 
-        public CustomerDbContext(DbContextOptions<CustomerDbContext> options) : base(options)    {}
+        public CustomerDbContext(DbContextOptions<CustomerDbContext> options) : base(options) { }
 
         public CustomerDbContext(DbContextOptions<CustomerDbContext> options, IMediator mediator) : this(options)
         {

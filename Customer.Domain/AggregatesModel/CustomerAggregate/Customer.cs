@@ -1,5 +1,4 @@
 ﻿using Customers.Domain.Exceptions;
-using Customers.Domain.SeedWork;
 
 #nullable disable
 
