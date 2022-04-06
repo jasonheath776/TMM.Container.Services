@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Customer.Domain": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}
