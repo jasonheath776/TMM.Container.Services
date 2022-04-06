@@ -19,7 +19,6 @@
     <Folder Include="Application\Models\" />
     <Folder Include="Application\Queries\" />
     <Folder Include="Application\Validations\" />
-    <Folder Include="Controllers\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -4,5 +4,4 @@
     {
         IUnitOfWork UnitOfWork { get; }
     }
-
 }
