@@ -1,4 +1,4 @@
-﻿#nullable disable 
+﻿#nullable disable
 
 namespace Customers.Infrastructure.Repositories
 {
@@ -33,6 +33,13 @@ namespace Customers.Infrastructure.Repositories
             }
         }
 
+        public Customer Update(Customer customer)
+        {
+            return _context.Customers
+                .Update(customer)
+                .Entity;
+        }
+
         public async Task<Customer> GetAsync(int customerId)
         {
             var customer = await _context.Customers
@@ -43,11 +50,13 @@ namespace Customers.Infrastructure.Repositories
             return customer;
         }
 
-        public Customer Update(Customer customer)
+        public async Task<IEnumerable<Customer>> GetAsync()
         {
-            return _context.Customers
-                .Update(customer)
-                .Entity;
+            var customers = await _context.Customers
+                 .Include(b => b.Addresses)
+                 .ToArrayAsync();
+
+            return customers;
         }
     }
 }

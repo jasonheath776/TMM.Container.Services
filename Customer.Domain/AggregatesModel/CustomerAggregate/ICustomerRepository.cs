@@ -7,5 +7,7 @@
         Customer Update(Customer customer);
 
         Task<Customer> GetAsync(int CustomerId);
+
+        Task<IEnumerable<Customer>> GetAsync();
     }
 }
