@@ -23,9 +23,10 @@ namespace Customers.Infrastructure.Repositories
         {
             if (customer.IsTransient())
             {
-                return _context.Customers
-                    .Add(customer)
-                    .Entity;
+                return
+                     _context.Customers
+                        .Add(customer)
+                        .Entity;
             }
             else
             {

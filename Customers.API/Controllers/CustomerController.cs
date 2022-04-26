@@ -23,9 +23,9 @@ namespace Customers.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.Created)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<ActionResult<Customer>> CreateCustomerAsync([FromBody] CreateCustomerCommand customer)
-        {          
+        {
             Customer commandResult = await _mediator.Send(customer);
-           
+
             if (commandResult == null)
             {
                 return BadRequest();

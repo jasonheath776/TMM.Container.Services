@@ -29,7 +29,7 @@ namespace Customers.API.Application.Commands
         public bool IsActive { get; set; }
 
         [DataMember]
-        public IEnumerable<Address> OrderItems => _addresses;
+        public IEnumerable<Address> Addresses => _addresses;
 
         public CreateCustomerCommand()
         {

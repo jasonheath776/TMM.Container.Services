@@ -2,6 +2,7 @@
 #nullable disable
 
 using Microsoft.EntityFrameworkCore.Design;
+using System.Data;
 
 namespace Customers.Infrastructure
 {
@@ -42,9 +43,18 @@ namespace Customers.Infrastructure
         public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default)
         {
             await _mediator.DispatchDomainEventsAsync(this);
-            var result = await base.SaveChangesAsync(cancellationToken);
+            await base.SaveChangesAsync(cancellationToken);
 
             return true;
+        }
+
+        public async Task<IDbContextTransaction> BeginTransactionAsync()
+        {
+            if (_currentTransaction != null) return null;
+
+            _currentTransaction = await Database.BeginTransactionAsync(IsolationLevel.ReadCommitted);
+
+            return _currentTransaction;
         }
 
         public async Task CommitTransactionAsync(IDbContextTransaction transaction)
@@ -116,7 +126,7 @@ namespace Customers.Infrastructure
                 throw new NotImplementedException();
             }
 
-            public Task Publish<TNotification>(TNotification notification, CancellationToken cancellationToken = default(CancellationToken)) where TNotification : INotification
+            public Task Publish<TNotification>(TNotification notification, CancellationToken cancellationToken = default) where TNotification : INotification
             {
                 return Task.CompletedTask;
             }
@@ -126,9 +136,9 @@ namespace Customers.Infrastructure
                 return Task.CompletedTask;
             }
 
-            public Task<TResponse> Send<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default(CancellationToken))
+            public Task<TResponse> Send<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default)
             {
-                return Task.FromResult<TResponse>(default(TResponse));
+                return Task.FromResult<TResponse>(default);
             }
 
             public Task<object> Send(object request, CancellationToken cancellationToken = default)
