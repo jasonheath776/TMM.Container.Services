@@ -1,4 +1,5 @@
 ﻿using Customers.API.Application.Commands;
+using Customers.Domain.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -24,14 +25,23 @@ namespace Customers.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<ActionResult<Customer>> CreateCustomerAsync([FromBody] CreateCustomerCommand customer)
         {
-            Customer commandResult = await _mediator.Send(customer);
-
-            if (commandResult == null)
+            try
             {
-                return BadRequest();
-            }
+                Customer commandResult = await _mediator.Send(customer);
 
-            return Created(Request.Path, commandResult);
+                if (commandResult == null)
+                {
+                    return BadRequest();
+                }
+
+                return Created(Request.Path, commandResult);
+            }
+            catch(CustomerDomainException cde)
+            {
+                
+                    return BadRequest(cde.Message + "\n" + cde.InnerException?.Message);
+                
+            }
         }
 
         [HttpPut]

@@ -2,10 +2,12 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Customers.API.Infrastructure.AutofacModules;
+using Customers.Infrastructure;
 using MediatR.Extensions.Autofac.DependencyInjection;
 
 var configuration = GetConfiguration();
 
+// WebApplicationBuilder
 var builder = WebApplication.CreateBuilder(args);
 
 // Switch to using Autofac dependency injection
@@ -21,8 +23,9 @@ builder.Host.ConfigureContainer<ContainerBuilder>(b => b.RegisterMediatR(typeof(
 builder.Host.ConfigureContainer<ContainerBuilder>(b => b.RegisterModule(new MediatorModule()));
 builder.Host.ConfigureContainer<ContainerBuilder>(b => b.RegisterModule(new ApplicationModule(configuration["ConnectionString"])));
 
+// WebApplication
 var app = builder.Build();
-
+app.UseHttpsRedirection();
 app.UseRouting();
 app.UseEndpoints(endpoints =>
 {
@@ -34,9 +37,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-app.UseHttpsRedirection();
-
 
 app.Run();
 
@@ -52,6 +52,7 @@ static IConfiguration GetConfiguration()
 
 static class CustomExtensionMethods
 {
+   
     public static IServiceCollection AddApplicationInsights(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddApplicationInsightsTelemetry(configuration);
