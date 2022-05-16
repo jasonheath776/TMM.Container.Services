@@ -32,34 +32,21 @@ public class ApplicationModule
 
         var optionsBuilder = new DbContextOptionsBuilder<CustomerContext>()
             .UseSqlite(dbPath);
+
         builder
-     .RegisterType<CustomerContext>()
-     .WithParameter("options", optionsBuilder.Options)
-     .InstancePerLifetimeScope();
+         .RegisterType<CustomerContext>()
+         .WithParameter("options", optionsBuilder.Options)
+         .InstancePerLifetimeScope();
 
-        //builder.AddDbContext<OrderingContext>(options =>
-        //{
-        //    options.UseSqlServer(configuration["ConnectionString"],
-        //        sqlServerOptionsAction: sqlOptions =>
-        //        {
-        //            sqlOptions.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
-        //            sqlOptions.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
-        //        });
-        //},
-        //           ServiceLifetime.Scoped  //Showing explicitly that the DbContext is shared across the HTTP request scope (graph of objects started in the HTTP request)
-        //       );
 
-        builder.RegisterType<CustomerRepository>()
+        builder
+            .RegisterType<CustomerRepository>()
             .As<ICustomerRepository>()
             .InstancePerLifetimeScope();
 
         builder
-          .RegisterAssemblyTypes(typeof(CreateCustomerCommandValidator).GetTypeInfo().Assembly)
-          .Where(t => t.IsClosedTypeOf(typeof(IValidator<>)))
-          .AsImplementedInterfaces();
-
-        builder.RegisterAssemblyTypes(typeof(CreateCustomerCommandHandler).GetTypeInfo().Assembly)
-            .AsClosedTypesOf(typeof(IRequest<>));
+           .RegisterAssemblyTypes(typeof(CreateCustomerCommandHandler).GetTypeInfo().Assembly)
+           .AsClosedTypesOf(typeof(IRequest<>));
 
     }
 }

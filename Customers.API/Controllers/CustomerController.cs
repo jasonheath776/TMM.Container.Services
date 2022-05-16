@@ -36,11 +36,9 @@ namespace Customers.API.Controllers
 
                 return Created(Request.Path, commandResult);
             }
-            catch(CustomerDomainException cde)
+            catch (CustomerDomainException cde)
             {
-                
-                    return BadRequest(cde.Message + "\n" + cde.InnerException?.Message);
-                
+                return BadRequest($"{cde.Message} {Environment.NewLine}  {string.Join(Environment.NewLine, cde.Errors)}");
             }
         }
 
